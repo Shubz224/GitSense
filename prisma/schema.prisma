@@ -19,17 +19,36 @@ model User {
     firstName String?
     lastName  String?
 
-    emailAddress String @unique
-    credits      Int    @default(150)
+    emailAddress  String          @unique
+    credits       Int             @default(150)
+    UserToProject UserToProject[]
 }
-
 
 model Project {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name      String
-    github    String
-    deletedAt DateTime?
+    name          String
+    github        String
+    deletedAt     DateTime?
+    UserToProject UserToProject[]
 }
+
+//many to many bridging cable as user can be part of many projects and project can have many users
+
+model UserToProject {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userID    String
+    projectID String
+    user      User    @relation(fields: [userID], references: [id])
+    project   Project @relation(fields: [projectID], references: [id])
+
+    @@unique([userID, projectID])
+}
+
+
+

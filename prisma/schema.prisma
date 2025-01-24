@@ -1,54 +1,49 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id            String          @id @default(cuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
-    imageUrl  String?
-    firstName String?
-    lastName  String?
+  imageUrl      String?
+  firstName     String?
+  lastName      String?
 
-    emailAddress  String          @unique
-    credits       Int             @default(150)
-    UserToProject UserToProject[]
+  emailAddress  String          @unique
+  credits       Int             @default(150)
+
+  UserToProjects  UserToProject[]
 }
 
 model Project {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id            String          @id @default(cuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
-    name          String
-    github        String
-    deletedAt     DateTime?
-    UserToProject UserToProject[]
+  name          String
+  githubUrl     String
+  deletedAt     DateTime?
+  UserToProjects UserToProject[]
 }
-
-//many to many bridging cable as user can be part of many projects and project can have many users
 
 model UserToProject {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    userID    String
-    projectID String
-    user      User    @relation(fields: [userID], references: [id])
-    project   Project @relation(fields: [projectID], references: [id])
+  userId    String
+  projectId String
 
-    @@unique([userID, projectID])
+  user      User     @relation(fields: [userId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
+  
+
+  @@unique([userId, projectId])
 }
-
-
-

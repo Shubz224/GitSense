@@ -3,7 +3,10 @@ import { auth, clerkClient } from "@clerk/nextjs/server"
 import { notFound, redirect } from "next/navigation";
 
 const SyncUser = async()=>{
+    
     const {userId} = await auth();
+console.log("Authenticated User ID:", userId);
+
      
     if(!userId){
         throw Error('User not found')
@@ -33,9 +36,8 @@ const SyncUser = async()=>{
                lastName:user.lastName,
         },
      })
-   return redirect('/dashboard')
-
-
+   
+return redirect('/dashboard')
 }
 
 export default SyncUser

@@ -1,8 +1,10 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { api } from '@/trpc/react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 type FormInput = {
     repoUrl: string
@@ -12,8 +14,22 @@ type FormInput = {
 
 const CreatePage = () => {
     const { register, handleSubmit, reset } = useForm<FormInput>()
+    const createProject = api.project.createProject.useMutation()
+
     function onSubmit(data: FormInput) {
-        window.alert(JSON.stringify(data,null,2))
+        createProject.mutate({
+                   
+            githubUrl: data.repoUrl,
+            name: data.projectName,
+            githubToken: data.githubToken
+        }, {
+            onSuccess: () => {
+                toast.success('Project Created successfully')
+                reset()
+            }, onError: () => {
+                toast.error('Failed to create project')
+            }
+        })
         return true;
 
     }
@@ -36,16 +52,16 @@ const CreatePage = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Input  {...register('projectName', { required: true })} placeholder='Project Name'
                             required />
-                           <div className="h-2"></div>
-                           <Input  {...register('repoUrl', { required: true })} placeholder='Github URL'
-                            required />
-                           <div className="h-2"></div>
-                           <Input  {...register('githubToken', { required: true })} placeholder='Github Token (Optional)'
-                            required />
-                            <div className="h-4"></div>
-                            <Button type='submit'>
-                                Create Project
-                            </Button>
+                        <div className="h-2"></div>
+                        <Input  {...register('repoUrl', { required: true })} placeholder='Github URL'
+                            type='url' required />
+                        <div className="h-2"></div>
+                        <Input  {...register('githubToken')} placeholder='Github Token (Optional)'
+                        />
+                        <div className="h-4"></div>
+                        <Button type='submit' disabled={createProject.isPending}>
+                            Create Project
+                        </Button>
 
                     </form>
                 </div>

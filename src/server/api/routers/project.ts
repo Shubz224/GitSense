@@ -10,19 +10,37 @@ export const projectRouter = createTRPCRouter({
         })
     ).mutation(async ({ ctx, input }) => {
         // Create the project first
-          const UserId = ctx.user.userId;
+        const UserId = ctx.user.userId;
         const project = await ctx.db.project.create({
             data: {
                 githubUrl: input.githubUrl,
                 name: input.name,
-                UserToProjects:{
-                create:{
-                    userId:UserId!,
-                }
+                UserToProjects: {
+                    create: {
+                        userId: UserId!,
+                    }
                 }
             },
         });
 
         return project;
+    }),
+
+    getProjects: protectedProcedure.query(async ({ ctx }) => {
+        return await ctx.db.project.findMany({
+            where: {
+                UserToProjects: {
+                    some: {
+                        userId: ctx.user.userId!
+                    }
+                },
+                deletedAt: null
+            }
+
+        })
     })
+
+
+
+
 });

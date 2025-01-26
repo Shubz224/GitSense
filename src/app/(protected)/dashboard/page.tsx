@@ -10,6 +10,7 @@ const DashboardPage = () => {
     const {user} = useUser()
   return( 
     <div>
+      {project?.id}
       <div className='flex item-centre  justify-between  flex-wrap gap-y-4'>
        {/** github Link */}
        <div className='w-fit rounded-md bg-primary px-4 py-3'>

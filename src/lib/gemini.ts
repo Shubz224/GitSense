@@ -8,7 +8,7 @@ const model = genAI.getGenerativeModel({
 })
 
 
-export const summariseCommit = async (diff: string) => {
+export const aiSummariseCommit = async (diff: string) => {
     //htps://github.com/docker/genai-stack/commit/1a2b3c4d5e6f7g8h9i0j.diff
 
     const response = await model.generateContent([
@@ -51,83 +51,3 @@ export const summariseCommit = async (diff: string) => {
 
 } 
 
-console.log(await summariseCommit(`
-    diff --git a/prisma/schema.prisma b/prisma/schema.prisma
-index a9b565a..19d8101 100644
---- a/prisma/schema.prisma
-+++ b/prisma/schema.prisma
-@@ -8,29 +8,30 @@ datasource db {
- }
- 
- model User {
--  id            String          @id @default(cuid())
--  createdAt     DateTime        @default(now())
--  updatedAt     DateTime        @updatedAt
-+  id        String   @id @default(cuid())
-+  createdAt DateTime @default(now())
-+  updatedAt DateTime @updatedAt
- 
--  imageUrl      String?
--  firstName     String?
--  lastName      String?
-+  imageUrl  String?
-+  firstName String?
-+  lastName  String?
- 
--  emailAddress  String          @unique
--  credits       Int             @default(150)
-+  emailAddress String @unique
-+  credits      Int    @default(150)
- 
--  UserToProjects  UserToProject[]
-+  UserToProjects UserToProject[]
- }
- 
- model Project {
--  id            String          @id @default(cuid())
--  createdAt     DateTime        @default(now())
--  updatedAt     DateTime        @updatedAt
-+  id        String   @id @default(cuid())
-+  createdAt DateTime @default(now())
-+  updatedAt DateTime @updatedAt
- 
--  name          String
--  githubUrl     String
--  deletedAt     DateTime?
-+  name           String
-+  githubUrl      String
-+  deletedAt      DateTime?
-   UserToProjects UserToProject[]
-+  commits        Commit[]
- }
- 
- model UserToProject {
-@@ -41,9 +42,25 @@ model UserToProject {
-   userId    String
-   projectId String
- 
--  user      User     @relation(fields: [userId], references: [id])
--  project   Project  @relation(fields: [projectId], references: [id])
--  
-+  user    User    @relation(fields: [userId], references: [id])
-+  project Project @relation(fields: [projectId], references: [id])
- 
-   @@unique([userId, projectId])
- }
-+
-+model Commit {
-+  id        String   @id @default(cuid())
-+  createdAt DateTime @default(now())
-+  updatedAt DateTime @updatedAt
-+
-+  projectId String
-+  project   Project @relation(fields: [projectId], references: [id])
-+
-+  commitMessage      String
-+  commitHash         String
-+  commitAuthorName   String
-+  commitAuthorAvatar String
-+  commitDate         DateTime
-+  //ai summary
-+  summary            String
-+}`))

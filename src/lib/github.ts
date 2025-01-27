@@ -19,9 +19,18 @@ type Response = {
 }
 
 export const getCommitHashes = async (githubUrl: string): Promise<Response[]> => {
+    const [owner, repo] = githubUrl.split('/').slice(-2)
+     
+    if (!owner || !repo) {
+        throw new Error("Invalid github url")
+    }
+
+
+   
+
     const { data } = await octokit.rest.repos.listCommits({
-        owner: 'docker',
-        repo: 'genai-stack'
+        owner,
+        repo
     })
 
 
@@ -41,8 +50,8 @@ export const pollCommits = async (projectId: string) => {
     const { project, githubUrl } = await fetchProjectGithubUrl(projectId)
     const commitHashes = await getCommitHashes(githubUrl)
     const unprocessedCommits = await filterUnproccessedCommits(projectId, commitHashes)
-     console.log(unprocessedCommits)
-     return  unprocessedCommits
+    console.log(unprocessedCommits)
+    return unprocessedCommits
 
 }
 

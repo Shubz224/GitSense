@@ -46,8 +46,5 @@ export const aiSummariseCommit = async (diff: string) => {
 
 
     ]);
-
     return response.response.text();
-
 } 
-

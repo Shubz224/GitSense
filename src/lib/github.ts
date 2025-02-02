@@ -59,22 +59,22 @@ export const pollCommits = async (projectId: string) => {
     const { project, githubUrl } = await fetchProjectGithubUrl(projectId);
     const commitHashes = await getCommitHashes(githubUrl);
     const unprocessedCommits = await filterUnproccessedCommits(projectId, commitHashes);
-    const summaryResponses = await Promise.allSettled(unprocessedCommits.map(commit=>{
-        return summariseCommit(githubUrl,commit.commitHash)
+    const summaryResponses = await Promise.allSettled(unprocessedCommits.map(commit => {
+        return summariseCommit(githubUrl, commit.commitHash)
     }))
-     
-    const summaries = summaryResponses.map((response)=>{
-        if(response.status === 'fulfilled'){
+
+    const summaries = summaryResponses.map((response) => {
+        if (response.status === 'fulfilled') {
             return response.value as string
         }
         return ""
-        
+
     })
 
     const commits = await db.commit.createMany({
-        data: summaries.map((summary,index)=>{
+        data: summaries.map((summary, index) => {
             console.log(`processing commit ${index}/`)
-            return{
+            return {
                 projectId: projectId,
                 commitHash: unprocessedCommits[index]!.commitHash,
                 commitMessage: unprocessedCommits[index]!.commitMessage,

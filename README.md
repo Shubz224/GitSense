@@ -1,29 +1,113 @@
-# Create T3 App
+# GitSense 🚀
+![Q&A Screenshot](/public/logic.png) 
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+GitSense is a powerful and intuitive tool designed to help developers gain deeper insights into their GitHub repositories. With a beautiful UI, AI-powered commit summaries, and a smart Q&A system, GitSense makes it easier than ever to understand and interact with your codebase.
 
-## What's next? How do I make an app with this?
+---
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🌟 Features
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+1. **AI-Powered Commit Summaries**  
+   - Automatically generate concise and meaningful summaries for each commit in your repository.
+   - Summaries are generated using Google Gemini API, ensuring high-quality insights.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+2. **Smart Q&A System**  
+   - Ask any question about your repository, and GitSense will provide AI-generated answers.
+   - The system retrieves the top 10 relevant files and summarizes the answer for quick understanding.
 
-## Learn More
+3. **Beautiful and Intuitive UI**  
+   - A clean and modern dashboard to visualize commit history and summaries.
+   - Easy-to-use interface for creating projects and linking GitHub repositories.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+4. **Saved Q&A Section**  
+   - All your questions and answers are saved for future reference.
+   - Quickly revisit past queries and responses without re-asking.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+5. **Powered by Cutting-Edge Tech**  
+   - Built with Next.js, Prisma, NeonDB, LangChain, and Google Gemini API for a seamless and scalable experience.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+---
 
-## How do I deploy this?
+## 🎯 Problem It Solves
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Understanding and managing large codebases can be challenging, especially when dealing with numerous commits and files. Developers often spend hours digging through commit messages and code to find relevant information. GitSense addresses this problem by:
+
+- **Simplifying Commit Analysis**: Automatically summarizing commits to save time and effort.
+- **Enhancing Code Understanding**: Providing AI-generated answers to repository-related questions.
+- **Improving Productivity**: Offering a centralized dashboard for all repository insights.
+
+---
+
+## 🛠️ Technologies Used
+
+- **Frontend**: Next.js, TailwindCSS
+- **Backend**: Next.js API Routes
+- **Database**: Prisma, NeonDB
+- **AI/ML**: Google Gemini API, LangChain
+- **Authentication**: Clerk
+- **State Management**: React Query (TanStack Query)
+- **UI Components**: Radix UI, Lucide Icons
+- **Other Tools**: Axios, Zod, SuperJSON
+
+---
+
+## 🧠 How It Works
+
+### 1. **Loading Repository Files**
+   - GitSense uses **LangChain** to load repository files as documents.
+   - Each document is processed and stored for further analysis.
+
+### 2. **Generating Commit Summaries**
+   - The **Google Gemini API** is used to generate concise summaries for each commit.
+   - Summaries are displayed on the dashboard for easy reference.
+
+### 3. **Creating Embeddings**
+   - All documents are converted into embeddings using AI.
+   - These embeddings are stored in the database for efficient retrieval.
+
+### 4. **Answering User Questions**
+   - When a user asks a question, it is converted into a vector.
+   - A **cosine similarity query** is performed across all vectorized summaries.
+   - The top 10 most relevant files are returned, along with an AI-generated summary of the answer.
+
+---
+
+## 🖼️ Screenshots
+
+### Dashboard
+![Dashboard Screenshot](/public/commits%20home.png)  
+
+
+### Q&A Section
+![Q&A Screenshot](/public/qa.png)  
+![Q&A Screenshot](/public/saved%20quesions.png) 
+![Q&A Screenshot](/public/Screenshot%20(61).png) 
+
+
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm (v11 or higher)
+- A Google Gemini API key
+- A NeonDB database URL
+- A Clerk authentication token
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/gitsense.git
+2. Navigate to the project directory:
+   ```bash
+   cd gitsense
+
+3.Set up environment variables:
+  ```bash
+     DATABASE_URL="your-neondb-url"
+     GOOGLE_GEMINI_API_KEY="your-gemini-api-key"
+    CLERK_PUBLISHABLE_KEY="your-clerk-publishable-key"
+     CLERK_SECRET_KEY="your-clerk-secret-ke
+

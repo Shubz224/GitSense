@@ -6,13 +6,14 @@ import Link from 'next/link'
 import React from 'react'
 import CommitLog from './commit-log'
 import AskQuestionCard from './ask-question-card'
+import ArchiveButton from './archive-button'
 
 const DashboardPage = () => {
   const { project } = useProject()
   const { user } = useUser()
   return (
     <div>
-      {project?.id}
+      {/*project?.id*/}
       <div className='flex item-centre  justify-between  flex-wrap gap-y-4'>
         {/** github Link */}
         <div className='w-fit rounded-md bg-primary px-4 py-3'>
@@ -34,9 +35,7 @@ const DashboardPage = () => {
         <div className="h-4"></div>
 
         <div className="flex items-center gap-4 ">
-          TeamMembers
-          InviteButton
-          ArchiveButton
+          <ArchiveButton/>
         </div>
 
 
@@ -46,7 +45,7 @@ const DashboardPage = () => {
       <div className="mt-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
           <AskQuestionCard/>
-          MeetingCard
+          
         </div>
       </div>
       <div className="mt-8"></div>
